@@ -84,7 +84,7 @@ public interface CeleritasHttpClient extends HttpRequestBodyPublisherProvider, H
    * @throws IllegalArgumentException if the {@code request} argument is not
    *                                  a request that could have been validly built as specified by {@link
    *                                  HttpRequest.Builder}.
-   * @throws SecurityException        If a security manager has been installed
+   * @throws SecurityException        If a security manager has been installed,
    *                                  and it denies {@link java.net.URLPermission access} to the
    *                                  URL in the given request, or proxy if one is configured.
    *                                  See {@link HttpClient#send(HttpRequest, BodyHandler)} for further information.
