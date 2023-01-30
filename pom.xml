@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.bad-pop</groupId>
+    <groupId>io.github.bad-pop</groupId>
     <artifactId>celeritas</artifactId>
-    <version>1.0.0-SB2-SNAPSHOT</version>
+    <version>1.0.0-SB2</version>
 
     <name>Celeritas</name>
     <description>
