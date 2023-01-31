@@ -23,14 +23,29 @@ using Vavr with Celeritas.
 
 ## How to use Celeritas ?
 
-Simply get the celeritas dependency with your favourite dependency manager
+Simply get the celeritas dependencies with your favourite dependency manager
 
 Maven
 
 ```xml
+<!-- Celeritas HTTP Client dependency -->
 <dependency>
-  <groupId>com.github.bad-pop</groupId>
-  <artifactId>celeritas</artifactId>
+  <groupId>io.github.bad-pop</groupId>
+  <artifactId>celeritas-http-client</artifactId>
+  <version>x.x.x</version>
+</dependency>
+
+<!-- Celeritas Spring Boot 2 Utils dependency -->
+<dependency>
+  <groupId>io.github.bad-pop</groupId>
+  <artifactId>celeritas-sb2-utils</artifactId>
+  <version>x.x.x</version>
+</dependency>
+
+  <!-- Celeritas Spring Boot 3 Utils dependency -->
+<dependency>
+  <groupId>io.github.bad-pop</groupId>
+  <artifactId>celeritas-sb3-utils</artifactId>
   <version>x.x.x</version>
 </dependency>
 ```
@@ -38,7 +53,14 @@ Maven
 Gradle
 
 ```groovy
-implementation 'com.github.bad-pop:celeritas:x.x.x'
+// Celeritas HTTP Client dependency
+implementation 'io.github.bad-pop:celeritas-http-client:x.x.x'
+
+// Celeritas Spring Boot 2 Utils dependency
+implementation 'io.github.bad-pop:celeritas-sb2-utils:x.x.x'
+
+// Celeritas Spring Boot 3 Utils dependency
+implementation 'io.github.bad-pop:celeritas-sb3-utils:x.x.x'
 ```
 
 ## The Celeritas http client
