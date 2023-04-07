@@ -115,6 +115,7 @@ public interface PlaceholderFormatter {
    * @param parameters        a Map containing values to replace the string placeholders
    * @param exceptionSupplier the exception to throws if the format fail
    * @return a formatted string if no error occurred, otherwise throws the exception given into the supplier
+   * @throws Throwable as specified in this method documentation
    */
   String formatOrElseThrow(String strFormat, Map<String, Object> parameters, Supplier<? extends Throwable> exceptionSupplier) throws Throwable;
 
@@ -126,6 +127,7 @@ public interface PlaceholderFormatter {
    * @param parameters        a Map containing values to replace the string placeholders
    * @param exceptionSupplier the exception to throws if the format fail
    * @return a formatted string if no error occurred, otherwise throws the exception given into the supplier
+   * @throws Throwable as specified in this method documentation
    */
   String formatIgnoringUnknownPlaceholdersOrElseThrow(String strFormat, Map<String, Object> parameters, Supplier<? extends Throwable> exceptionSupplier) throws Throwable;
 }

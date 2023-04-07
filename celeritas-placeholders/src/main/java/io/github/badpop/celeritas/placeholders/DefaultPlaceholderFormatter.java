@@ -10,6 +10,11 @@ import java.util.function.Supplier;
 
 import static io.vavr.API.Try;
 
+/**
+ * The DefaultPlaceholderFormatter is a default formatter
+ *
+ * <p> The default placeholder format is ${[A-Za-z0-9_-]+}
+ */
 public class DefaultPlaceholderFormatter implements PlaceholderFormatter {
 
   private static final PlaceholderConfiguration PLACEHOLDER_CONFIGURATION = PlaceholderConfiguration.newDefault();

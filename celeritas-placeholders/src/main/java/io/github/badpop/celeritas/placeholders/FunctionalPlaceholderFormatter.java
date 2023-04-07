@@ -6,6 +6,7 @@ import io.github.badpop.celeritas.placeholders.exception.PlaceholderFormatExcept
 import io.vavr.collection.Seq;
 import io.vavr.control.Try;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,7 +26,7 @@ public interface FunctionalPlaceholderFormatter extends PlaceholderFormatter {
 
   /**
    * This method, like the {@link #getPlaceholders(String)} method, allows you to find the placeholders present in a string,
-   * with the difference that here you get a {@link Seq>} and not a {@link java.util.List}
+   * with the difference that here you get a {@link Seq} and not a {@link List}
    *
    * @param strFormat a string with or without placeholders
    * @return the placeholders present in the given string
