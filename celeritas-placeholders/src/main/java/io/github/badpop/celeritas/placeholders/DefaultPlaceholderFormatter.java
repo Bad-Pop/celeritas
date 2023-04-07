@@ -2,31 +2,31 @@ package io.github.badpop.celeritas.placeholders;
 
 import io.github.badpop.celeritas.placeholders.exception.NoPlaceholderFoundException;
 import io.github.badpop.celeritas.placeholders.exception.NullParametersException;
-import io.github.badpop.celeritas.placeholders.exception.PlaceholderFormatException;
 import io.vavr.collection.HashMap;
 
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import static io.github.badpop.celeritas.placeholders.DefaultPlaceholderConstants.DEFAULT_PLACEHOLDER_REGEX;
 import static io.vavr.API.Try;
 
-public class DefaultPlaceholdersFormatter implements PlaceholdersFormatter {
+public class DefaultPlaceholderFormatter implements PlaceholderFormatter {
+
+  private static final PlaceholderConfiguration PLACEHOLDER_CONFIGURATION = PlaceholderConfiguration.newDefault();
 
   @Override
   public List<String> getPlaceholders(String strFormat) {
-    return Formatter.getPlaceholders(DEFAULT_PLACEHOLDER_REGEX, strFormat).toJavaList();
+    return Formatter.getPlaceholders(PLACEHOLDER_CONFIGURATION, strFormat).toJavaList();
   }
 
   @Override
   public boolean hasPlaceholders(String strFormat) {
-    return Formatter.hasPlaceholders(DEFAULT_PLACEHOLDER_REGEX, strFormat);
+    return Formatter.hasPlaceholders(PLACEHOLDER_CONFIGURATION, strFormat);
   }
 
   @Override
   public int countPlaceholders(String strFormat) {
-    return Formatter.countPlaceholders(DEFAULT_PLACEHOLDER_REGEX, strFormat);
+    return Formatter.countPlaceholders(PLACEHOLDER_CONFIGURATION, strFormat);
   }
 
   @Override
@@ -35,20 +35,20 @@ public class DefaultPlaceholdersFormatter implements PlaceholdersFormatter {
       throw new NoPlaceholderFoundException();
     }
 
-    if(parameters == null) {
+    if (parameters == null) {
       throw new NullParametersException();
     }
 
-    return Formatter.format(DEFAULT_PLACEHOLDER_REGEX, strFormat, HashMap.ofAll(parameters));
+    return Formatter.format(PLACEHOLDER_CONFIGURATION, strFormat, HashMap.ofAll(parameters));
   }
 
   @Override
   public String formatIgnoringUnknownPlaceholders(String strFormat, Map<String, Object> parameters) {
-    if(parameters == null) {
-      throw new PlaceholderFormatException("Unable to format string with null parameters");
+    if (parameters == null) {
+      throw new NullParametersException();
     }
 
-    return Formatter.formatIgnoringUnknownPlaceholders(DEFAULT_PLACEHOLDER_REGEX, strFormat, HashMap.ofAll(parameters));
+    return Formatter.formatIgnoringUnknownPlaceholders(PLACEHOLDER_CONFIGURATION, strFormat, HashMap.ofAll(parameters));
   }
 
   @Override

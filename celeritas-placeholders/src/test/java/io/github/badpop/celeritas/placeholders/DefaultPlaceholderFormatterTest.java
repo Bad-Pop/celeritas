@@ -19,9 +19,9 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-class DefaultPlaceholdersFormatterTest {
+class DefaultPlaceholderFormatterTest {
 
-  private final PlaceholdersFormatter formatter = PlaceholdersFormatter.newFormatter();
+  private final PlaceholderFormatter formatter = PlaceholderFormatter.newFormatter();
 
   @ParameterizedTest
   @MethodSource("should_return_placeholders_keys_or_empty_list_if_no_placeholder_arguments")
@@ -97,9 +97,9 @@ class DefaultPlaceholdersFormatterTest {
 
     @Test
     void should_not_format_on_null_parameters() {
-      assertThatExceptionOfType(PlaceholderFormatException.class)
+      assertThatExceptionOfType(NullParametersException.class)
         .isThrownBy(() -> formatter.formatIgnoringUnknownPlaceholders("${a_placeholder}", null))
-        .withMessage("Unable to format string with null parameters");
+        .withMessage("Unable to format a string if parameters null");
     }
 
     private static Stream<Arguments> should_format_arguments() {

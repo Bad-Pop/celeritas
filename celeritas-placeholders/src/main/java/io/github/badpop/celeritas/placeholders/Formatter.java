@@ -12,13 +12,17 @@ import java.util.regex.Pattern;
 
 import static io.vavr.API.Seq;
 
+/**
+ * This interface is the core of the celeritas-placeholder library.
+ * It outlines the basic methods for all formatters to work without having to rewrite the placeholder formatting process.
+ */
 interface Formatter {
 
-  static Seq<String> getPlaceholders(String placeholderRegex, String strFormat) {
+  static Seq<String> getPlaceholders(PlaceholderConfiguration placeholderConfiguration, String strFormat) {
     final var keys = new ArrayList<String>();
 
     try {
-      final var matcher = Pattern.compile(placeholderRegex).matcher(strFormat);
+      final var matcher = Pattern.compile(placeholderConfiguration.getPattern()).matcher(strFormat);
       while (matcher.find()) {
         keys.add(matcher.group(1));
       }
@@ -29,36 +33,36 @@ interface Formatter {
     return List.ofAll(keys);
   }
 
-  static boolean hasPlaceholders(String placeholderRegex, String strFormat) {
+  static boolean hasPlaceholders(PlaceholderConfiguration placeholderConfiguration, String strFormat) {
     try {
-      return Pattern.compile(placeholderRegex).matcher(strFormat).find();
+      return Pattern.compile(placeholderConfiguration.getPattern()).matcher(strFormat).find();
     } catch (Exception e) {
       return false;
     }
   }
 
-  static int countPlaceholders(String placeholderRegex, String strFormat) {
+  static int countPlaceholders(PlaceholderConfiguration placeholderConfiguration, String strFormat) {
     try {
-      final var matcher = Pattern.compile(placeholderRegex).matcher(strFormat);
+      final var matcher = Pattern.compile(placeholderConfiguration.getPattern()).matcher(strFormat);
       var count = 0;
-      while(matcher.find()) {
+      while (matcher.find()) {
         count++;
       }
       return count;
     } catch (Exception e) {
-      throw new IllegalArgumentException("Unable to match format [" + strFormat + "] with pattern [" + placeholderRegex + "]", e);
+      throw new IllegalArgumentException("Unable to match format [" + strFormat + "] with pattern [" + placeholderConfiguration.getPattern() + "]", e);
     }
   }
 
-  static String format(String placeholderRegex, String strFormat, Map<String, Object> parameters) {
+  static String format(PlaceholderConfiguration placeholderConfiguration, String strFormat, Map<String, Object> parameters) {
     try {
       final var newTemplate = new StringBuilder(strFormat);
       final var paramsValues = new ArrayList<>();
-      final var matcher = Pattern.compile(placeholderRegex).matcher(strFormat);
+      final var matcher = Pattern.compile(placeholderConfiguration.getPattern()).matcher(strFormat);
 
       while (matcher.find()) {
         String key = matcher.group(1);
-        String placeholder = "${" + key + "}";
+        String placeholder = placeholderConfiguration.getPrefix() + key + placeholderConfiguration.getSuffix();
         int index = newTemplate.indexOf(placeholder);
 
         if (index != -1) {
@@ -78,15 +82,15 @@ interface Formatter {
     }
   }
 
-  static String formatIgnoringUnknownPlaceholders(String placeholderRegex, String strFormat, Map<String, Object> parameters) {
+  static String formatIgnoringUnknownPlaceholders(PlaceholderConfiguration placeholderConfiguration, String strFormat, Map<String, Object> parameters) {
     try {
       final var newTemplate = new StringBuilder(strFormat);
       final var paramsValues = new ArrayList<>();
-      final var matcher = Pattern.compile(placeholderRegex).matcher(strFormat);
+      final var matcher = Pattern.compile(placeholderConfiguration.getPattern()).matcher(strFormat);
 
       while (matcher.find()) {
         String key = matcher.group(1);
-        String placeholder = "${" + key + "}";
+        String placeholder = placeholderConfiguration.getPrefix() + key + placeholderConfiguration.getSuffix();
         int index = newTemplate.indexOf(placeholder);
 
         if (index != -1) {

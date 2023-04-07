@@ -1,5 +1,7 @@
 package io.github.badpop.celeritas.placeholders;
 
+import io.github.badpop.celeritas.placeholders.exception.NoPlaceholderFoundException;
+import io.github.badpop.celeritas.placeholders.exception.NullParametersException;
 import io.vavr.collection.Seq;
 import io.vavr.control.Try;
 
@@ -7,16 +9,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import static io.github.badpop.celeritas.placeholders.DefaultPlaceholderConstants.DEFAULT_PLACEHOLDER_REGEX;
 import static io.vavr.API.Try;
 
-public class DefaultFunctionalPlaceholdersFormatter implements FunctionalPlaceholdersFormatter {
+/**
+ * The DefaultFunctionalPlaceholderFormatter is a default formatter that provides a more complete API
+ * for working with functional objects offered by the Vavr library.
+ *
+ * <p> The default placeholder format is ${[A-Za-z0-9_-]+}
+ */
+public class DefaultFunctionalPlaceholderFormatter implements FunctionalPlaceholderFormatter {
 
-  private static final PlaceholdersFormatter DEFAULT_FORMATTER = PlaceholdersFormatter.newFormatter();
+  private static final PlaceholderFormatter DEFAULT_FORMATTER = PlaceholderFormatter.newFormatter();
+  private static final PlaceholderConfiguration PLACEHOLDER_CONFIGURATION = PlaceholderConfiguration.newDefault();
 
   @Override
   public Seq<String> getPlaceholdersAsSeq(String strFormat) {
-    return Formatter.getPlaceholders(DEFAULT_PLACEHOLDER_REGEX, strFormat);
+    return Formatter.getPlaceholders(PLACEHOLDER_CONFIGURATION, strFormat);
   }
 
   @Override
@@ -65,37 +73,43 @@ public class DefaultFunctionalPlaceholdersFormatter implements FunctionalPlaceho
   }
 
   @Override
-  //TODO TEST
   public String format(String strFormat, io.vavr.collection.Map<String, Object> parameters) {
-    return Formatter.format(DEFAULT_PLACEHOLDER_REGEX, strFormat, parameters);
+    if(!hasPlaceholders(strFormat)) {
+      throw new NoPlaceholderFoundException();
+    }
+
+    if(parameters == null) {
+      throw new NullParametersException();
+    }
+
+    return Formatter.format(PLACEHOLDER_CONFIGURATION, strFormat, parameters);
   }
 
   @Override
-  //TODO TEST
   public Try<String> tryToFormat(String strFormat, Map<String, Object> parameters) {
     return Try(() -> format(strFormat, parameters));
   }
 
   @Override
-  //TODO TEST
   public Try<String> tryToFormat(String strFormat, io.vavr.collection.Map<String, Object> parameters) {
     return Try(() -> format(strFormat, parameters));
   }
 
   @Override
-  //TODO TEST
   public String formatIgnoringUnknownPlaceholders(String strFormat, io.vavr.collection.Map<String, Object> parameters) {
-    return Formatter.formatIgnoringUnknownPlaceholders(DEFAULT_PLACEHOLDER_REGEX, strFormat, parameters);
+    if(parameters == null) {
+      throw new NullParametersException();
+    }
+
+    return Formatter.formatIgnoringUnknownPlaceholders(PLACEHOLDER_CONFIGURATION, strFormat, parameters);
   }
 
   @Override
-  //TODO TEST
   public Try<String> tryToFormatIgnoringUnknownPlaceholders(String strFormat, Map<String, Object> parameters) {
     return Try(() -> formatIgnoringUnknownPlaceholders(strFormat, parameters));
   }
 
   @Override
-  //TODO TEST
   public Try<String> tryToFormatIgnoringUnknownPlaceholders(String strFormat, io.vavr.collection.Map<String, Object> parameters) {
     return Try(() -> formatIgnoringUnknownPlaceholders(strFormat, parameters));
   }
